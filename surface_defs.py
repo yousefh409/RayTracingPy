@@ -27,3 +27,7 @@ object_intersects = {
 object_normals = {
     'sphere': sphere_normal
 }
+
+object_largest_rad = {
+    'sphere': (lambda s: s["radius"])
+}

@@ -5,8 +5,8 @@ from surface_defs import *
 import random
 
 ##################### CONSTANTS/SETUP #####################
-width = 1200 # Width of screen
-height = 800 # Height of screen
+width = 300 # Width of screen
+height = 200 # Height of screen
 ratio = width / height # Aspect Ratio
 
 max_reflections = 5 # Max number of reflections
@@ -17,9 +17,9 @@ screen = (-camera[1] + -1, camera[1] +  + 1 / ratio, camera[1] + 1, -camera[1] -
 
 image = np.zeros([height, width, 3]) # Image, initially black
 
-light = { 'position': np.array([10, 10, 10]), 'ambient': np.array([1, 1, 1]), 'diffuse': np.array([1, 1, 1]), 'specular': np.array([1, 1, 1]) } # Light Info
+light = { 'position': np.array([-10, 10, 5]), 'ambient': np.array([0.85, 0.85, 0.85]), 'diffuse': np.array([0.85, 0.85, 0.85]), 'specular': np.array([0.85, 0.85, 0.85]) } # Light Info
 
-num_random_objects = 75
+num_random_objects = 10
 ##################### ############### #####################
 
 #################### INITIAL OBJECTS ####################
@@ -33,18 +33,30 @@ objects = [
 
 
 ################### RANDOMIZE OBJECTS ###################
+def is_conflict(surface):
+    for obj in objects:
+        min_distance = object_largest_rad[surface["object_type"]](surface) + object_largest_rad[obj["object_type"]](obj)
+        if np.linalg.norm(surface["center"] - obj["center"]) <= min_distance:
+            return True
+    return False
+
 rand = random.random
 for i in range(num_random_objects):
-    objects.append({
+    sur = {
      "object_type": "sphere",
      'center': np.array([-2.5 + rand() * 5, 0.1, -2.5 + rand() * 5]),
      'radius': 0.1,
      'ambient': np.array([rand(), rand(), rand()]),
      'diffuse': np.array([rand(), rand(), rand()]),
-     'specular': np.array([1, 1, 1]),
-     'shininess': 100 ,
-      'reflection': 0.5
-    })
+     'specular': np.array([rand(), rand(), rand()]),
+     'shininess': 100 * rand(),
+      'reflection': rand()
+    }
+    while is_conflict(sur):
+        sur['center'] = np.array([-2.5 + rand() * 5, 0.1, -2.5 + rand() * 5])
+    objects.append(sur)
+
+
 #################### ############### ####################
 
 
