@@ -5,29 +5,31 @@ from surface_defs import *
 import random
 
 ##################### CONSTANTS/SETUP #####################
-width = 300 # Width of screen
-height = 200 # Height of screen
+width = 1200 # Width of screen
+height = 800 # Height of screen
 ratio = width / height # Aspect Ratio
 
-max_reflections = 5 # Max number of reflections
+max_reflections = 3 # Max number of reflections
 
-camera = np.array([0, 1.1, 3]) # Position of Camera
+camera = np.array([0.1, 2.2, 8]) # Position of Camera
 
-screen = (-camera[1] + -1, camera[1] +  + 1 / ratio, camera[1] + 1, -camera[1] - 1 / ratio) # Screen: left, top, right, bottom
+screen = (-camera[1] + -1, camera[1] + 1 / ratio, camera[1] + 1, -camera[1] - 1 / ratio) # Screen: left, top, right, bottom
 
 image = np.zeros([height, width, 3]) # Image, initially black
 
-light = { 'position': np.array([-10, 10, 5]), 'ambient': np.array([0.85, 0.85, 0.85]), 'diffuse': np.array([0.85, 0.85, 0.85]), 'specular': np.array([0.85, 0.85, 0.85]) } # Light Info
+light = { 'position': np.array([0.5, 10, 20]), 'ambient': np.array([0.85, 0.85, 0.85]), 'diffuse': np.array([0.85, 0.85, 0.85]), 'specular': np.array([0.85, 0.85, 0.85]) } # Light Info
 
-num_random_objects = 10
+num_random_objects = 50
 ##################### ############### #####################
 
 #################### INITIAL OBJECTS ####################
 objects = [
-    { "object_type": "sphere", 'center': np.array([-0.2, 0.7, -1]), 'radius': 0.7, 'ambient': np.array([0.1, 0, 0]), 'diffuse': np.array([0.7, 0, 0]), 'specular': np.array([1, 1, 1]), 'shininess': 100 , 'reflection': 0.5 },
-    { "object_type": "sphere", 'center': np.array([0.1, 0.1, 0]), 'radius': 0.1, 'ambient': np.array([0.1, 0, 0.1]), 'diffuse': np.array([0.7, 0, 0.7]), 'specular': np.array([1, 1, 1]), 'shininess': 100 , 'reflection': 0.5 },
-    { "object_type": "sphere", 'center': np.array([-0.3, 0.15, 0]), 'radius': 0.15, 'ambient': np.array([0, 0.1, 0]), 'diffuse': np.array([0, 0.6, 0]), 'specular': np.array([1, 1, 1]), 'shininess': 100, 'reflection': 0.5  },
-    { "object_type": "sphere", 'center': np.array([0, -9000, 0]), 'radius': 9000, 'ambient': np.array([0.1, 0.1, 0.1]), 'diffuse': np.array([0.6, 0.6, 0.6]), 'specular': np.array([1, 1, 1]), 'shininess': 100, 'reflection': 0.5 }
+    { "object_type": "sphere", 'center': np.array([1.35, 0.7, -1]), 'radius': 0.7, 'ambient': np.array([0.1, 0.1, 0.1]), 'diffuse': np.array([0.7, 0.7, 0]), 'specular': np.array([1, 1, 1]), 'shininess': 300 , 'reflection': 1 },
+    { "object_type": "sphere", 'center': np.array([-1.75, 0.7, -1]), 'radius': 0.7, 'ambient': np.array([0, 0, 0.1]), 'diffuse': np.array([0.7, 0, 0.7]), 'specular': np.array([1, 1, 1]), 'shininess': 300 , 'reflection': 1 },
+    { "object_type": "sphere", 'center': np.array([-0.2, 0.7, -1]), 'radius': 0.7, 'ambient': np.array([0.1, 0, 0]), 'diffuse': np.array([0.7, 0, 0]), 'specular': np.array([1, 1, 1]), 'shininess': 1800 , 'reflection': 1 },
+    { "object_type": "sphere", 'center': np.array([0.1, 0.1, 0]), 'radius': 0.1, 'ambient': np.array([0.1, 0, 0.1]), 'diffuse': np.array([0.7, 0, 0.7]), 'specular': np.array([1, 1, 1]), 'shininess': 300 , 'reflection': 1 },
+    { "object_type": "sphere", 'center': np.array([-0.3, 0.15, 0]), 'radius': 0.15, 'ambient': np.array([0, 0.1, 0]), 'diffuse': np.array([0, 0.6, 0]), 'specular': np.array([1, 1, 1]), 'shininess': 150, 'reflection': 1  },
+    { "object_type": "sphere", 'center': np.array([0, -9000, 0]), 'radius': 9000, 'ambient': np.array([0.4, 0.4, 0.4]), 'diffuse': np.array([0.7, 0.7, 0.7]), 'specular': np.array([1, 1, 1]), 'shininess': 150, 'reflection': 1 }
 ]
 #################### ############### ####################
 
@@ -44,16 +46,16 @@ rand = random.random
 for i in range(num_random_objects):
     sur = {
      "object_type": "sphere",
-     'center': np.array([-2.5 + rand() * 5, 0.1, -2.5 + rand() * 5]),
+     'center': np.array([-2 + rand() * 4, 0.1, -1 + rand() * 3]),
      'radius': 0.1,
-     'ambient': np.array([rand(), rand(), rand()]),
-     'diffuse': np.array([rand(), rand(), rand()]),
-     'specular': np.array([rand(), rand(), rand()]),
-     'shininess': 100 * rand(),
+     'ambient': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
+     'diffuse': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
+     'specular': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
+     'shininess': 150 + 100 * rand(),
       'reflection': rand()
     }
     while is_conflict(sur):
-        sur['center'] = np.array([-2.5 + rand() * 5, 0.1, -2.5 + rand() * 5])
+        sur['center'] = np.array([-2 + rand() * 4, 0.1, -1 + rand() * 3])
     objects.append(sur)
 
 
@@ -84,9 +86,9 @@ for i, y in enumerate(np.linspace(screen[1], screen[3], height)):
     for j, x in enumerate(np.linspace(screen[0], screen[2], width)):
         pixel = np.array([x, y, 0])
         origin = camera
-        direction = normalize(pixel - origin)
+        direction = normalize(pixel - origin) # Unit vector from camera to pixel on screen
 
-        color = np.zeros((3))
+        color = np.zeros((3)) # Initially black
         total_reflection = 1
 
         for _ in range(max_reflections):
@@ -96,7 +98,7 @@ for i, y in enumerate(np.linspace(screen[1], screen[3], height)):
 
             intersection = origin + min_distance * direction # Origin + Distance(time)
             normal_to_surface = object_normals[nearest_object["object_type"]](nearest_object, intersection) # Normal of object toward intersection point
-            shifted_point = intersection + 1e-5 * normal_to_surface # Shift point out, as to not mistake the object we are at, for another
+            shifted_point = intersection + 0.00001 * normal_to_surface # Shift point out, as to not mistake the object we are at, for another
 
             intersection_to_light = normalize(light['position'] - shifted_point) # Vector from light to intersection
             _, min_distance = nearest_intersected_object(objects, shifted_point, intersection_to_light) # Distance from intersection to object in between light

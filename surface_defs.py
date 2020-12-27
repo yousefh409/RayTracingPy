@@ -20,6 +20,8 @@ def sphere_intersect(center, radius, ray_origin, ray_direction):
     return None
 ################## ###### ##################
 
+
+def cylinder_intersect(, ray_origin, ray_direction)
 object_intersects = {
     'sphere': sphere_intersect
 }
