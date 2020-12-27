@@ -11,7 +11,7 @@ ratio = width / height # Aspect Ratio
 
 max_reflections = 3 # Max number of reflections
 
-camera = np.array([0.1, 2.2, 8]) # Position of Camera
+camera = np.array([0.6, 0.65, 5]) # Position of Camera
 
 screen = (-camera[1] + -1, camera[1] + 1 / ratio, camera[1] + 1, -camera[1] - 1 / ratio) # Screen: left, top, right, bottom
 
@@ -46,7 +46,7 @@ rand = random.random
 for i in range(num_random_objects):
     sur = {
      "object_type": "sphere",
-     'center': np.array([-2 + rand() * 4, 0.1, -1 + rand() * 3]),
+     'center': np.array([-2 + rand() * 4, 0.1, -1 + rand() * 4]),
      'radius': 0.1,
      'ambient': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
      'diffuse': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
@@ -55,7 +55,7 @@ for i in range(num_random_objects):
       'reflection': rand()
     }
     while is_conflict(sur):
-        sur['center'] = np.array([-2 + rand() * 4, 0.1, -1 + rand() * 3])
+        sur['center'] = np.array([-2 + rand() * 4, 0.1, -1 + rand() * 4])
     objects.append(sur)
 
 
