@@ -17,9 +17,9 @@ screen = (-camera[1] + -1, camera[1] + 1 / ratio, camera[1] + 1, -camera[1] - 1 
 
 image = np.zeros([height, width, 3]) # Image, initially black
 
-light = { 'position': np.array([0.5, 10, 20]), 'ambient': np.array([0.85, 0.85, 0.85]), 'diffuse': np.array([0.85, 0.85, 0.85]), 'specular': np.array([0.85, 0.85, 0.85]) } # Light Info
+light = { 'position': np.array([10, 10, 7]), 'ambient': np.array([0.75, 0.75, 0.75]), 'diffuse': np.array([0.75, 0.75, 0.75]), 'specular': np.array([0.75, 0.75, 0.75]) } # Light Info
 
-num_random_objects = 50
+num_random_objects = 75
 ##################### ############### #####################
 
 #################### INITIAL OBJECTS ####################
@@ -44,10 +44,11 @@ def is_conflict(surface):
 
 rand = random.random
 for i in range(num_random_objects):
+    rad = 0.1 + rand() * 0.1
     sur = {
      "object_type": "sphere",
-     'center': np.array([-2 + rand() * 4, 0.1, -1 + rand() * 4]),
-     'radius': 0.1,
+     'center': np.array([-2 + rand() * 4, rad + rand() * 0.1, -1 + rand() * 4]),
+     'radius': rad,
      'ambient': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
      'diffuse': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
      'specular': np.array([rand() * 0.7, rand() * 0.7, rand() * 0.7]),
@@ -55,7 +56,7 @@ for i in range(num_random_objects):
       'reflection': rand()
     }
     while is_conflict(sur):
-        sur['center'] = np.array([-2 + rand() * 4, 0.1, -1 + rand() * 4])
+        sur['center'] = np.array([-2 + rand() * 4, rad + rand() * 0.2, -1 + rand() * 4])
     objects.append(sur)
 
 
